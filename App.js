@@ -1,36 +1,47 @@
 import * as React from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { View, StatusBar } from 'react-native'
+import About from './components/About'
+import Search from './components/Search'
+import { NavigationContainer } from '@react-navigation/native';
+import { createMaterialTopTabNavigator  } from '@react-navigation/material-top-tabs';
 
-const instructions = Platform.select({
-  ios: `Press Cmd+R to reload,\nCmd+D or shake for dev menu`,
-  android: `Double tap R on your keyboard to reload,\nShake or press menu button for dev menu`,
-});
+const Tabs = createMaterialTopTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.welcome}>Welcome to React Native!</Text>
-      <Text style={styles.instructions}>To get started, edit App.js</Text>
-      <Text style={styles.instructions}>{instructions}</Text>
+    <View style={{flex: 1}}>
+        <StatusBar hidden={true}/>
+        <NavigationContainer>
+              <Tabs.Navigator
+                //https://reactnavigation.org/docs/material-bottom-tab-navigator/
+                tabBarPosition="bottom"
+                tabBarOptions = {{
+                    showIcon: true,
+                    showLabel: false,
+                    indicatorStyle: {
+                        height: 2,
+                        backgroundColor: '#FFF'
+                    },
+                    style: {
+                        backgroundColor: '#BBABA7',
+                        borderColor: '#A99591',
+                        borderTopWidth: 1
+                    }
+                }}
+              >
+                    <Tabs.Screen
+                        name="Search"
+                        component={Search}
+                        options={Search.navigationOptions}
+                    />
+                    <Tabs.Screen
+                        name="About"
+                        component={About}
+                        options={About.navigationOptions}
+                    />
+              </Tabs.Navigator>
+        </NavigationContainer>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
